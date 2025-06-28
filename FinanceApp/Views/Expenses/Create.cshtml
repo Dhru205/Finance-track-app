@@ -6,16 +6,44 @@
         <div>
             <label asp-for="Description" class="form-label"></label>
             <input asp-for="Description" class="form-control"/> 
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div>
             <label asp-for="Amount" class="form-label"></label>
             <input asp-for="Amount" class="form-control" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
         </div>
+
+        
         <div>
             <label asp-for="Category" class="form-label"></label>
-            <input asp-for="Category" class="form-control" />
+            <select id="categoryDropdown" name="Category" class="form-control">
+                <option value="">-- Select Category --</option>
+                @foreach (var category in (SelectList)ViewBag.Categories)
+                {
+                    <option value="@category.Text">@category.Text</option>
+                }
+            </select>
+            <small class="form-text text-muted">Or enter a new one below:</small>
+            <input type="text" id="categoryInput" name="Category" class="form-control mt-1" placeholder="Enter new category (optional)" />
         </div>
-        <button type="submit" class="btn btn-primary">Add Expense</button>
+
+        <script>
+            // Ensure that if user types in the input, it overrides the dropdown
+            document.getElementById("categoryInput").addEventListener("input", function () {
+                if (this.value.length > 0) {
+                    document.getElementById("categoryDropdown").disabled = true;
+                } else {
+                    document.getElementById("categoryDropdown").disabled = false;
+                }
+            });
+        </script>
+
+        <button type="submit" class="btn btn-primary mt-3">Add Expense</button>   
     </form>
 
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

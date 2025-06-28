@@ -9,7 +9,7 @@ namespace FinanceApp.Models
         [Required]
         public string Description { get; set; } = null!;
         [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage ="Amount needs to be higher than 0")]
+        [Range(1, int.MaxValue, ErrorMessage ="Please enter a valid integer greater than 0")]
         public double Amount { get; set; }
         [Required]
         public string Category { get; set; } = null!;
