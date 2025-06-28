@@ -45,7 +45,8 @@ namespace FinanceApp.Controllers
             .ToList();
 
         ViewBag.MonthlyTotal = filteredExpenses.Sum(e => e.Amount);
-        ViewBag.SelectedMonth = selectedDate.ToString("MMMM yyyy");
+        ViewBag.SelectedMonth = selectedMonth ?? DateTime.Now.ToString("yyyy-MM");
+
 
         return View(filteredExpenses);
     }
@@ -101,11 +102,20 @@ namespace FinanceApp.Controllers
             return RedirectToAction("Index");
         }
 
-
-        public IActionResult GetChart()
+        [HttpGet]
+        public IActionResult GetChart(int month, int year)
         {
-            var data = _expensesService.GetChartData();
+            var data = _expensesService.GetAll()
+                .Result
+                .Where(e => e.Date.Month == month && e.Date.Year == year)
+                .GroupBy(e => e.Category)
+                .Select(g => new {
+                    category = g.Key,
+                    total = g.Sum(e => e.Amount)
+                });
+
             return Json(data);
         }
+
     }
 }
