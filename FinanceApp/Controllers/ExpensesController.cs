@@ -45,8 +45,7 @@ namespace FinanceApp.Controllers
             .ToList();
 
         ViewBag.MonthlyTotal = filteredExpenses.Sum(e => e.Amount);
-        ViewBag.SelectedMonth = selectedMonth ?? DateTime.Now.ToString("yyyy-MM");
-
+        ViewBag.SelectedMonth = selectedDate.ToString("MMMM yyyy");
 
         return View(filteredExpenses);
     }
