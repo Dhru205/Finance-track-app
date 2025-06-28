@@ -4,6 +4,7 @@ using FinanceApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering; // Added for SelectList
+using System.Text; 
 
 
 namespace FinanceApp.Controllers
@@ -50,7 +51,34 @@ namespace FinanceApp.Controllers
         return View(filteredExpenses);
     }
 
-        
+        public async Task<IActionResult> ExportToCsv(string selectedMonth)
+        {
+            var expenses = await _expensesService.GetAll();
+
+            if (!string.IsNullOrEmpty(selectedMonth) && DateTime.TryParse($"{selectedMonth}-01", out var parsedDate))
+            {
+                expenses = expenses
+                    .Where(e => e.Date.Month == parsedDate.Month && e.Date.Year == parsedDate.Year)
+                    .ToList();
+            }
+
+            var csv = new StringBuilder();
+            csv.AppendLine("Description,Amount,Category,Date");
+
+            double total = 0;
+
+            foreach (var e in expenses)
+            {
+                csv.AppendLine($"\"{e.Description}\",{e.Amount},\"{e.Category}\",{e.Date:yyyy-MM-dd}");
+                total += e.Amount;
+            }
+
+            csv.AppendLine();
+            csv.AppendLine($"Total Expenses:,{total}");
+
+            var bytes = Encoding.UTF8.GetBytes(csv.ToString());
+            return File(bytes, "text/csv", $"expenses_{selectedMonth ?? "all"}.csv");
+        }
 
 
 
