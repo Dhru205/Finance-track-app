@@ -1,0 +1,18 @@
+Features to add:
+Edit Expense
+Search & Filter
+User Authentication
+Monthly Budget & Overspending Alert
+Bar Chart of Monthly Spending Over Time
+Export to CSV
+
+
+
+Added new things are :
+
+Create expense
+Delete expense
+Export to CSV
+Select monthly expenses dropdown with pie chart for that specific month
+Total expenses below pie chart
+Added category dropdown section in Create expense page
