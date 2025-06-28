@@ -11,7 +11,7 @@ namespace FinanceApp.Controllers
 {
     public class ExpensesController : Controller
     {
-        private readonly IExpensesService _expensesService;
+        private readonly IExpensesService _expensesService;  // _expensesService is an instance of IExpensesService, which is used to interact with the expenses data.
         public ExpensesController(IExpensesService expensesService)
         {
             _expensesService = expensesService;

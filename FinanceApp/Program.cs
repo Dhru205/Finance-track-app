@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FinanceAppContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"))); // Register service for DbContext with SQL Server
 
 builder.Services.AddScoped<IExpensesService, ExpensesService>();
 var app = builder.Build();
